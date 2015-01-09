@@ -22,6 +22,8 @@ eos
   config.vm.provision :shell, :path => "scripts/install-docker.sh"
   config.vm.provision :shell, :path => "scripts/install-nix.sh"
 
+  config.vm.provision :shell, :path => "scripts/install-aci.sh"
+
   config.vm.network "private_network", ip: "192.168.22.22"
 
 
