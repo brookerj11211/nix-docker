@@ -27,3 +27,6 @@ which git || apt-get install -y git
 cd spec
 ./build
 echo 'export PATH=$PATH:'$PWD/bin > /etc/profile.d/acipath.sh
+
+# nix-aci script depencencies
+apt-get install -y jq
