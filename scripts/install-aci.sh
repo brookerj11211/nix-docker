@@ -25,6 +25,9 @@ export PATH=$PATH:$bin
 
 which git || apt-get install -y git
 
+# nix-aci script depencencies
+apt-get install -y jq
+
 if ! [ -e spec ] ; then 
     git clone https://github.com/appc/spec.git
     cd spec
@@ -36,9 +39,7 @@ cd ..
 if ! [ -e rocket-v$rktver ]; then
     wget -q https://github.com/coreos/rocket/releases/download/v0.1.1/rocket-v${rktver}.tar.gz
     tar xzvf rocket-v${rktver}.tar.gz
-    echo 'export PATH=$PATH:'$PWD/rocket-v${rktver} > /etc/profile.d/rktpath.sh
+    cp -v rocket-v${rktver}/rkt /usr/local/bin
 fi
 
-# nix-aci script depencencies
-apt-get install -y jq
 

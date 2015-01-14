@@ -1,10 +1,15 @@
 #!/bin/bash
 
+
 set -ex
 
 tmp=$(mktemp -d)
 
-type jq                                 # jq
+type jq                                   # jq
+type mkdir mv dirname readlink            # coreutils
+type nix-instantiate nix-env nix-store    # nix
+type rsync                                # rsync
+type actool                               # aci
 
 : ${container_manifest:=manifest}
 : ${container_name:=$(jq -r '.name' $container_manifest)}
@@ -18,13 +23,7 @@ type jq                                 # jq
 : ${NIX_PATH:=${nix_path:-${CALLER_NIX_PATH}}}
 : ${NIX_REMOTE:=${nix_remote:-${CALLER_NIX_REMOTE}}}
 
-
 export NIX_PATH NIX_REMOTE
-
-type mkdir mv dirname readlink            # coreutils
-type nix-instantiate nix-env nix-store    # nix
-type rsync                                # rsync
-type actool                               # aci
 
 if ! [ -e $container_manifest ]; then
     echo "Container manifest does not exist ... failed"
@@ -39,6 +38,11 @@ fi
 
 test -d $cache_dir || mkdir -p $cache_dir
 test -d $build_root || mkdir -p $build_root
+
+if ! actool validate $container_manifest; then
+    echo "Invalid manifest file"
+    exit 1
+fi
 
 cp $container_manifest $build_root/manifest
 
