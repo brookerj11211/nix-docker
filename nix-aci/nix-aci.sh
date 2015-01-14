@@ -26,10 +26,20 @@ type nix-instantiate nix-env nix-store    # nix
 type rsync                                # rsync
 type actool                               # aci
 
+if ! [ -e $container_manifest ]; then
+    echo "Container manifest does not exist ... failed"
+    exit 1
+fi
+
+if ! [ -e $nix_config ]; then
+    echo "Nix config does not exist... failed"
+    exit 1
+fi
+
+
 test -d $cache_dir || mkdir -p $cache_dir
 test -d $build_root || mkdir -p $build_root
 
-#
 cp $container_manifest $build_root/manifest
 
 root=$(nix-build "${nix_config}" --attr "${nix_attribute}" \
@@ -51,4 +61,4 @@ actool -debug validate -type appimage  $aci
 mv -v $aci $aci_out
 
 # cleanup
-rm -rf $tmp
+#rm -rf $tmp
