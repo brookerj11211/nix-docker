@@ -10,6 +10,9 @@ By default the container manifest file is assumed to be "manifest" and the nix c
 
 This script was hacked out of code from the nix provisioner for vagga:
 https://github.com/tailhook/vagga
+
+# Usage
+
 Here is and example test you can run inside the container once built.
 
 
