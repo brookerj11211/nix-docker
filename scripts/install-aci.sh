@@ -10,6 +10,8 @@ VERSION=1.4
 OS=linux
 ARCH=amd64
 
+rktver=0.1.1
+
 bin='/usr/local/go/bin'
 
 if ! [ -e /usr/local/go ]; then
@@ -23,16 +25,18 @@ export PATH=$PATH:$bin
 
 which git || apt-get install -y git
 
-[ -e spec ] || git clone https://github.com/appc/spec.git
-cd spec
-./build
-echo 'export PATH=$PATH:'$PWD/bin > /etc/profile.d/acipath.sh
+if ! [ -e spec ] ; then 
+    git clone https://github.com/appc/spec.git
+    cd spec
+    ./build
+    echo 'export PATH=$PATH:'$PWD/bin > /etc/profile.d/acipath.sh
 cd ..
 
 # install rocket
-if ! [ -e rocket ]; then
-    wget -q https://github.com/coreos/rocket/releases/download/v0.1.1/rocket-v0.1.1.tar.gz
-    tar xzvf rocket-v0.1.1.tar.gz
+if ! [ -e rocket-v$rktver ]; then
+    wget -q https://github.com/coreos/rocket/releases/download/v0.1.1/rocket-v${rktver}.tar.gz
+    tar xzvf rocket-v${rktver}.tar.gz
+    echo 'export PATH=$PATH:'$PWD/rocket-v${rktver} > /etc/profile.d/rktpath.sh
 fi
 
 # nix-aci script depencencies
