@@ -63,6 +63,6 @@ Here is and example test you can run inside the container once built.
 
     ~/nix-docker/nix-aci/nix-aci.sh
 
-    sudo rkt -debug run $app.aci
+    sudo rkt -debug run $pkg.aci
 
 
